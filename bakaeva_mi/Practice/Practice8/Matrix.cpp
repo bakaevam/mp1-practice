@@ -1,5 +1,6 @@
 #include "Matrix.h"
-#include <iostream>
+#include "Exception.h"
+#include "iostream"
 #include <ctime>
 using namespace std;
 
@@ -67,7 +68,7 @@ void Matrix::operator=(Matrix& tmp)
 Matrix Matrix::operator+(const Matrix& M1)
 {
     if ((rows != M1.rows) || (cols != M1.cols))
-        throw "Error";
+        throw Exception("Sizes don't fit");
     Matrix tmp(rows, cols);
     for (int i = 0; i < rows; i++)
         for (int j = 0; j < cols; j++)
@@ -87,7 +88,7 @@ Matrix Matrix::operator+(int _c)
 Matrix Matrix::operator-(const Matrix& M1)
 {
     if ((rows != M1.rows) || (cols != M1.cols))
-        throw "Error";
+        throw Exception("Sizes don't fit");
     Matrix tmp(rows, cols);
     for (int i = 0; i < rows; i++)
         for (int j = 0; j < cols; j++)
@@ -107,7 +108,7 @@ Matrix Matrix::operator-(int _c)
 Matrix Matrix::operator*(const Matrix& M1)
 {
     if ((rows != M1.cols) || (cols != M1.rows))
-        throw "Error";
+        throw Exception("Sizes don't fit");
     Matrix tmp(rows, M1.cols);
     for (int i = 0; i < rows * M1.cols; i++)
         tmp.elements[i] = 0;
@@ -132,7 +133,7 @@ Matrix Matrix::operator*(int _c)
 const int* Matrix::operator[](int _ind) const
 {
     if ((_ind < 0) || (_ind > rows))
-        throw "Error";
+        throw Exception("Index don't fit");
     return(elements + cols * _ind);
 }
 
