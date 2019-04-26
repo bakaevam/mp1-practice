@@ -34,6 +34,6 @@ ostream& operator<<(ostream& os, const Time& tmp)
 
     if ((tmp.m >= 0) && (tmp.m < 10))
         os << "0" << tmp.m << " ";
-    else os << tmp.m << ":";
+    else os << tmp.m << " ";
     return os;
 };
