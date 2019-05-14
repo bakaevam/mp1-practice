@@ -1,25 +1,26 @@
-#ifndef _CONTAINER_H_
-#define _CONTAINER_H_
+#ifndef _CONTAINER_POINTERS_H_
+#define _CONTAINER_POINTERS_H_
 #include "Exception.h"
+#include "Container.h"
 using namespace std;
 
 template <typename T, int maxsize>
-class Container
+class Container<T*, maxsize>
 {
 private:
-    T* Arr;
+    T** Arr;
     int count;
 public:
     Container();
-    Container(int);
+    Container(T**, int);
     Container(const Container&);
     ~Container();
 
     bool IsFull() const;
     bool IsEmpty() const;
-    int Find(T) const;
-    void Add(T);
-    void Delete(T);
+    int Find(T*) const;
+    void Add(T*);
+    void Delete(T*);
     void Print() const;
     int GetCount() const;
     T operator[](int) const;
@@ -27,111 +28,117 @@ public:
 };
 
 template <typename T, int maxsize>
-Container<T, maxsize>::Container()
+Container<T*, maxsize>::Container()
 {
     count = 0;
-    Arr = new T[maxsize];
-}
+    Arr = new T*[maxsize];
+};
 
 template <typename T, int maxsize>
-Container<T, maxsize>::Container(int _count)
+Container<T*, maxsize>::Container(T** _arr, int _count)
 {
-    Arr = new T[maxsize];
     count = _count;
+    Arr = new T*[maxsize];
     for (int i = 0; i < count; i++)
-        Arr[i] = i;
-}
+    {
+        Arr[i] = new T(*(_arr[i]));
+    }
+};
 
 template <typename T, int maxsize>
-Container<T, maxsize>::Container(const Container<T, maxsize>& tmp)
+Container<T*, maxsize>::Container(const Container<T*, maxsize>& tmp)
 {
     count = tmp.count;
-    Arr = new T[count];
+    Arr = new T*[maxsize];
     for (int i = 0; i < count; i++)
-        Arr[i] = tmp.Arr[i];
-}
+    {
+        Arr[i] = new T(*(tmp.Arr[i]));
+    }
+};
 
 template <typename T, int maxsize>
-Container<T, maxsize>::~Container()
+Container<T*, maxsize>::~Container()
 {
+    for (int i = 0; i < count; i++)
+        delete Arr[i];
+    delete[] Arr;
     count = 0;
-    delete[]Arr;
-}
+};
 
 template <typename T, int maxsize>
-bool Container<T, maxsize>::IsFull() const
+bool Container<T*, maxsize>::IsFull() const
 {
     return (count == maxsize);
-}
+};
 
 template <typename T, int maxsize>
-bool Container<T, maxsize>::IsEmpty() const
+bool Container<T*, maxsize>::IsEmpty() const
 {
     return (count == 0);
-}
+};
 
 template <typename T, int maxsize>
-int Container<T, maxsize>::Find(T tmp) const
+int Container<T*, maxsize>::Find(T* tmp) const
 {
     for (int i = 0; i < count; i++)
         if (Arr[i] == tmp)
             return i;
     return -1;
-}
+};
 
 template <typename T, int maxsize>
-void Container<T, maxsize>::Add(T tmp)
+void Container<T*, maxsize>::Add(T* tmp)
 {
     if (!IsFull())
     {
-        Arr[count++] = tmp;
+        Arr[count++] = new T(*tmp);
     }
-    else throw Exception("Container is full! MaxSize = 10");
-}
+    else throw Exception("  Container is full!");
+};
 
 template <typename T, int maxsize>
-void Container<T, maxsize>::Delete(T tmp)
+void Container<T*, maxsize>::Delete(T* tmp)
 {
     if (IsEmpty())
-        throw Exception("Container is empty!");
+        throw Exception("  Container is empty!");
 
     int ind = Find(tmp);
 
     if (ind == -1)
         throw Exception("  Element didn't find!");
 
+    delete Arr[ind];
     Arr[ind] = Arr[--count];
-}
+};
 
 template <typename T, int maxsize>
-void Container<T, maxsize>::Print() const
+void Container<T*, maxsize>::Print() const
 {
     cout << "\n  ";
     for (int i = 0; i < count; i++)
         cout << Arr[i] << " ";
     cout << endl;
-}
+};
 
 template <typename T, int maxsize>
-int Container<T, maxsize>::GetCount() const
+int Container<T*, maxsize>::GetCount() const
 {
     return count;
-}
+};
 
 template <typename T, int maxsize>
-T Container<T, maxsize>::operator[](int ind) const
+T Container<T*, maxsize>::operator[](int ind) const
 {
     if ((ind < 0) || (ind > count))
         throw Exception("  Index isn't correct");
     return Arr[ind];
-}
+};
 
 template <typename T, int maxsize>
-T& Container<T, maxsize>::operator[](int ind)
+T& Container<T*, maxsize>::operator[](int ind)
 {
     if ((ind < 0) || (ind > maxsize))
         throw Exception("Index don't fit");
-    return Arr[ind];
+    return *Arr[ind];
 }
-
 #endif 
