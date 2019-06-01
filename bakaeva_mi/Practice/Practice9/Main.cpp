@@ -3,7 +3,6 @@
 #include "Date.h"
 #include "Time.h"
 #include "conio.h"
-#include "Exception.h"
 using namespace std;
 
 int main()
@@ -13,12 +12,20 @@ int main()
 
     try
     {
-        List.read();
+        List.read("Plans.txt");
         cin >> YourDate;
         List.print(YourDate);
     }
-    catch (Exception exp)
+    catch (Exception_date& e)
     {
-        exp.Print();
+        cerr << e.what() << endl;
+    }
+    catch (Exception_free& e)
+    {
+        cerr << e.what() << endl;
+    }
+    catch (Exception_task& e)
+    {
+        cerr << e.what() << endl;
     }
 }

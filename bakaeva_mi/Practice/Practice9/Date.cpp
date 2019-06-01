@@ -1,5 +1,4 @@
 #include "Date.h"
-#include "Exception.h"
 
 Date::Date()
 {
@@ -58,17 +57,17 @@ istream& operator>>(istream& is, Date& tmp)
     cout << "  Enter the year: ";
     is >> tmp.y;
     if (tmp.y < 0)
-        throw Exception("Year isn't correct!");
+        throw Exception_date("Date isn't correct!");
 
     cout << "  Enter the month: ";
     is >> tmp.m;
     if ((tmp.m < 1) || (tmp.m > 12))
-        throw Exception("Month isn't correct!");
+        throw Exception_date("Date isn't correct!");
 
     cout << "  Enter the day: ";
     is >> tmp.d;
     if ((tmp.d < 1) || (tmp.d > 31))
-        throw Exception("Day isn't correct!");
+        throw Exception_date("Date isn't correct!");
 
     return is;
 };

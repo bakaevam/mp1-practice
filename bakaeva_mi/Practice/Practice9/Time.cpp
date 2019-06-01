@@ -18,7 +18,7 @@ Time::~Time()
     m = 0;
 }
 
-Time& Time::operator=(Time& tmp)
+const Time& Time::operator=(Time& tmp)
 {
     h = tmp.h;
     m = tmp.m;

@@ -1,6 +1,7 @@
 #ifndef _DATE_H_
 #define _DATE_H_
-#include "iostream"
+#include <iostream>
+#include <exception>
 using namespace std;
 
 class Date
@@ -18,4 +19,16 @@ public:
     friend istream& operator>>(istream&, Date&);
 };
 
+//Exceptions
+class Exception_date : exception
+{
+private:
+    const string mes;
+public:
+    Exception_date(string e)
+        : mes(e)
+    {
+    }
+    const char* what() const { return mes.c_str(); }
+};
 #endif 
