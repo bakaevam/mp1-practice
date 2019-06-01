@@ -112,7 +112,6 @@
   <ItemGroup>
     <ClInclude Include="Container.h" />
     <ClInclude Include="ContainerPointers.h" />
-    <ClInclude Include="Exception.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Main.cpp" />

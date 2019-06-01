@@ -18,9 +18,6 @@
     <ClInclude Include="Container.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="Exception.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="ContainerPointers.h">
       <Filter>Header Files</Filter>
     </ClInclude>

@@ -1,6 +1,5 @@
 #ifndef _CONTAINER_POINTERS_H_
 #define _CONTAINER_POINTERS_H_
-#include "Exception.h"
 #include "Container.h"
 using namespace std;
 
@@ -20,11 +19,11 @@ public:
     bool IsEmpty() const;
     int Find(T*) const;
     void Add(T*);
-    void Delete(T*);
+    void Delete(int);
     void Print() const;
     int GetCount() const;
     T operator[](int) const;
-    T& operator[](int);
+    T* operator[](int);
 };
 
 template <typename T, int maxsize>
@@ -89,23 +88,21 @@ int Container<T*, maxsize>::Find(T* tmp) const
 template <typename T, int maxsize>
 void Container<T*, maxsize>::Add(T* tmp)
 {
-    if (!IsFull())
-    {
-        Arr[count++] = new T(*tmp);
-    }
-    else throw Exception("  Container is full!");
+    if (IsFull())
+        throw Exception_full("  Container is full!");
+    Arr[count++] = new T(*tmp);
 };
 
 template <typename T, int maxsize>
-void Container<T*, maxsize>::Delete(T* tmp)
+void Container<T*, maxsize>::Delete(int tmp)
 {
     if (IsEmpty())
-        throw Exception("  Container is empty!");
+        throw Exception_emp("  Container is empty!");
 
-    int ind = Find(tmp);
+    int ind = tmp;
 
     if (ind == -1)
-        throw Exception("  Element didn't find!");
+        throw Exception_find("  Element didn't find!");
 
     delete Arr[ind];
     Arr[ind] = Arr[--count];
@@ -130,15 +127,15 @@ template <typename T, int maxsize>
 T Container<T*, maxsize>::operator[](int ind) const
 {
     if ((ind < 0) || (ind > count))
-        throw Exception("  Index isn't correct");
+        throw Exception_ind("  Index isn't correct");
     return Arr[ind];
 };
 
 template <typename T, int maxsize>
-T& Container<T*, maxsize>::operator[](int ind)
+T* Container<T*, maxsize>::operator[](int ind)
 {
     if ((ind < 0) || (ind > maxsize))
-        throw Exception("Index don't fit");
-    return *Arr[ind];
+        throw Exception_ind("Index don't fit");
+    return Arr[ind];
 }
 #endif 
