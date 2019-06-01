@@ -11,7 +11,7 @@ public:
     Time();
     Time(int, int);
     ~Time();
-    Time& operator=(Time&);
+    const Time& operator=(Time&);
 
     friend ostream& operator<<(ostream&, const Time&);
 };

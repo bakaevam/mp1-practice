@@ -2,7 +2,6 @@
 #include "Date.h"
 #include "Type_1.h"
 #include "Type_2.h"
-#include "Exception.h"
 #include <fstream>
 #include <iostream>
 #include <string>
@@ -19,7 +18,7 @@ ToDoList::~ToDoList()
     delete[] *tasks;
 }
 
-void ToDoList::read()
+void ToDoList::read(const string file_str)
 {
     string s;
     string str, tmp;
@@ -29,12 +28,12 @@ void ToDoList::read()
     int hour2, minute2;
     string _description;
 
-    ifstream fin("Plans.txt");
+    ifstream fin(file_str);
     if (fin.is_open())
     {
         fin >> count;
         if (count < 1)
-            throw Exception("  Count tasks isn't correct!");
+            throw Exception_task("  Count tasks isn't correct!");
         tasks = new Task*[count];
         int j = -1;
 
@@ -164,5 +163,5 @@ void ToDoList::print(Date _date)
         }
     }
     if (f == 0)
-        throw Exception("You are free for this day!");
+        throw Exception_free("You are free for this day!");
 };

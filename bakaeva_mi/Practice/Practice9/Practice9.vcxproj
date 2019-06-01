@@ -120,7 +120,6 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Date.h" />
-    <ClInclude Include="Exception.h" />
     <ClInclude Include="Task.h" />
     <ClInclude Include="Time.h" />
     <ClInclude Include="ToDoList.h" />

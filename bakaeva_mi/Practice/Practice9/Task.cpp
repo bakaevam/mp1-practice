@@ -17,7 +17,6 @@ Task::Task(string _description, Date _date)
 Task::~Task()
 {
     description = '0';
-    //date = 0;
 }
 
 Date Task::GetDate()

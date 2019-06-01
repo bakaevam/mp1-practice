@@ -18,7 +18,7 @@ Time::~Time()
     m = 0;
 }
 
-Time& Time::operator=(Time& tmp)
+const Time& Time::operator=(Time& tmp)
 {
     h = tmp.h;
     m = tmp.m;
@@ -34,6 +34,6 @@ ostream& operator<<(ostream& os, const Time& tmp)
 
     if ((tmp.m >= 0) && (tmp.m < 10))
         os << "0" << tmp.m << " ";
-    else os << tmp.m << ":";
+    else os << tmp.m << " ";
     return os;
 };
