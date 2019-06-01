@@ -1,29 +1,54 @@
 #ifndef _MATRIX_H_
 #define _MATRIX_H_
-#include "iostream"
+#include <iostream>
+#include <exception>
 using namespace std;
 class Matrix
 {
 private:
-    int *elements;
+    float *elements;
     int rows, cols;
 public:
-    Matrix();
     Matrix(int, int);
     Matrix(const Matrix&);
-    Matrix(int*, int, int);
+    Matrix(float*, int, int);
     ~Matrix();
 
     void Output();
-    void operator=(Matrix&);
+    const Matrix& operator=(Matrix&);
     Matrix operator+(const Matrix&);
     Matrix operator+(int);
     Matrix operator-(const Matrix&);
     Matrix operator-(int);
     Matrix operator*(const Matrix&);
     Matrix operator*(int);
-    const int* operator[](int) const;
+    const float* operator[](int) const;
 
     friend ostream& operator<<(ostream &, const Matrix &);
+};
+
+//Exceptions
+class Exception_sizes : exception
+{
+private:
+    const string mes;
+public:
+    Exception_sizes(string e)
+        : mes(e)
+    {
+    }
+    const char* what() const { return mes.c_str(); }
+};
+
+class Exception_ind : exception
+{
+private:
+    const string mes;
+public:
+    Exception_ind(string e)
+        : mes(e)
+    {
+    }
+    const char* what() const { return mes.c_str(); }
 };
 #endif
