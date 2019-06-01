@@ -1,41 +1,29 @@
 #include "Matrix.h"
-#include "Exception.h"
 #include "iostream"
-#include <ctime>
 using namespace std;
-
-Matrix::Matrix()
-{
-    rows = 0;
-    cols = 0;
-}
 
 Matrix::Matrix(int _rows, int _cols)
 {
     rows = _rows;
     cols = _cols;
-    srand(time(0));
-    elements = new int[rows * cols];
-    for (int i = 0; i < (rows * cols); i++)
-        elements[i] = rand() % 10;
+    elements = new float[rows * cols];
+    memset(elements, 0, sizeof(int) * rows * cols);
 }
 
 Matrix::Matrix(const Matrix& M1)
 {
     rows = M1.rows;
     cols = M1.cols;
-    elements = new int[rows * cols];
-    for (int i = 0; i < rows * cols; i++)
-        elements[i] = M1.elements[i];
+    elements = new float[rows * cols];
+    memcpy(elements, M1.elements, sizeof(int) * rows * cols);
 }
 
-Matrix::Matrix(int* _elements, int _rows, int _cols)
+Matrix::Matrix(float* _elements, int _rows, int _cols)
 {
     rows = _rows;
     cols = _cols;
-    elements = new int[rows * cols];
-    for (int i = 0; i < rows * cols; i++)
-        elements[i] = _elements[i];
+    elements = new float[rows * cols];
+    memcpy(elements, _elements, sizeof(int) * rows * cols);
 }
 
 Matrix::~Matrix()
@@ -57,18 +45,19 @@ void Matrix::Output()
     cout << endl;
 }
 
-void Matrix::operator=(Matrix& tmp)
+const Matrix& Matrix::operator=(Matrix& tmp)
 {
     rows = tmp.rows;
     cols = tmp.cols;
     for (int i = 0; i < rows * cols; i++)
         elements[i] = tmp.elements[i];
+    return *this;
 }
 
 Matrix Matrix::operator+(const Matrix& M1)
 {
     if ((rows != M1.rows) || (cols != M1.cols))
-        throw Exception("Sizes don't fit");
+        throw Exception_sizes("Vector sizes are not equal!");
     Matrix tmp(rows, cols);
     for (int i = 0; i < rows; i++)
         for (int j = 0; j < cols; j++)
@@ -88,7 +77,7 @@ Matrix Matrix::operator+(int _c)
 Matrix Matrix::operator-(const Matrix& M1)
 {
     if ((rows != M1.rows) || (cols != M1.cols))
-        throw Exception("Sizes don't fit");
+        throw Exception_sizes("Vector sizes are not equal!");
     Matrix tmp(rows, cols);
     for (int i = 0; i < rows; i++)
         for (int j = 0; j < cols; j++)
@@ -108,16 +97,13 @@ Matrix Matrix::operator-(int _c)
 Matrix Matrix::operator*(const Matrix& M1)
 {
     if ((rows != M1.cols) || (cols != M1.rows))
-        throw Exception("Sizes don't fit");
+        throw Exception_sizes("Vector sizes are not equal!");
     Matrix tmp(rows, M1.cols);
-    for (int i = 0; i < rows * M1.cols; i++)
-        tmp.elements[i] = 0;
     for (int i = 0; i < rows; i++)
         for (int j = 0; j < M1.cols; j++)
             for (int k = 0; k < cols; k++)
                 tmp.elements[i * M1.cols + j] +=
                 (elements[i * cols + k] * M1.elements[k * M1.cols + j]);
-
     return tmp;
 }
 
@@ -130,10 +116,10 @@ Matrix Matrix::operator*(int _c)
     return tmp;
 }
 
-const int* Matrix::operator[](int _ind) const
+const float* Matrix::operator[](int _ind) const
 {
     if ((_ind < 0) || (_ind > rows))
-        throw Exception("Index don't fit");
+        throw Exception_ind("Not correct index!");
     return(elements + cols * _ind);
 }
 
