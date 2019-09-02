@@ -22,7 +22,7 @@ public:
     Matrix operator-(int);
     Matrix operator*(const Matrix&);
     Matrix operator*(int);
-    const float* operator[](int) const;
+    const float*& operator[](int) const;
 
     friend ostream& operator<<(ostream &, const Matrix &);
 };

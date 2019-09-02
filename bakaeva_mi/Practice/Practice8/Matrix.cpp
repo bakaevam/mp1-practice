@@ -15,7 +15,7 @@ Matrix::Matrix(const Matrix& M1)
     rows = M1.rows;
     cols = M1.cols;
     elements = new float[rows * cols];
-    memcpy(elements, M1.elements, sizeof(int) * rows * cols);
+    memcpy(elements, M1.elements, sizeof(float) * rows * cols);
 }
 
 Matrix::Matrix(float* _elements, int _rows, int _cols)
@@ -23,7 +23,7 @@ Matrix::Matrix(float* _elements, int _rows, int _cols)
     rows = _rows;
     cols = _cols;
     elements = new float[rows * cols];
-    memcpy(elements, _elements, sizeof(int) * rows * cols);
+    memcpy(elements, _elements, sizeof(float) * rows * cols);
 }
 
 Matrix::~Matrix()
@@ -49,8 +49,7 @@ const Matrix& Matrix::operator=(Matrix& tmp)
 {
     rows = tmp.rows;
     cols = tmp.cols;
-    for (int i = 0; i < rows * cols; i++)
-        elements[i] = tmp.elements[i];
+    memcpy(elements, tmp.elements, sizeof(float) * rows * cols);
     return *this;
 }
 
@@ -116,11 +115,11 @@ Matrix Matrix::operator*(int _c)
     return tmp;
 }
 
-const float* Matrix::operator[](int _ind) const
+const float*& Matrix::operator[](int _ind) const
 {
     if ((_ind < 0) || (_ind > rows))
         throw Exception_ind("Not correct index!");
-    return(elements + cols * _ind);
+    return *(elements + cols * _ind);
 }
 
 ostream & operator<<(ostream &os, const Matrix & tmp)
